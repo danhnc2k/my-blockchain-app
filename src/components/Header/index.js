@@ -12,6 +12,14 @@ function Header() {
     navigate('/');
   };
 
+  const handleWalletDetail = () => {
+    navigate('/wallet/detail');
+  };
+
+  const handleGenerateWallet = () => {
+    navigate('/wallet/generate');
+  };
+
   const handleCreateTransaction = () => {
     navigate('/transaction/create');
   };
@@ -46,6 +54,20 @@ function Header() {
             onClick={handleCreateTransaction}
           >
             Create Transaction
+          </Button>
+          <Button
+            sx={{ color: 'white', borderColor: 'white' }}
+            variant="outlined"
+            onClick={handleGenerateWallet}
+          >
+            Generate Wallet
+          </Button>
+          <Button
+            sx={{ color: 'white', borderColor: 'white' }}
+            variant="outlined"
+            onClick={handleWalletDetail}
+          >
+            Wallet Detail
           </Button>
         </Stack>
       </Stack>

@@ -2,26 +2,29 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Stack, TextField, Button, Typography } from '@mui/material';
-import WalletContext from '../../../../contexts/walletContext';
+
 import TransactionContext from '../../../../contexts/transactionContext';
 
 function CreateTransactionPage() {
   const navigate = useNavigate();
 
-  const { currentWallet } = useContext(WalletContext);
   const { setPendingTransactions } = useContext(TransactionContext);
 
-  const [amount, setAmount] = useState(0);
+  const [fromAddress, setFromAddress] = useState('');
   const [toAddress, setToAddress] = useState('');
+  const [amount, setAmount] = useState();
 
   const [loading, setLoading] = useState(false);
 
   const handleCreateTransaction = () => {
     setLoading(true);
     const newTransaction = {
-      from: currentWallet.address,
+      id: 1,
+      from: fromAddress,
       to: toAddress,
       amount: amount,
+      timestamp: 1456002322,
+      isValid: true,
     };
     setPendingTransactions((prevPendingTransactions) => {
       const newPendingTransactions = [...prevPendingTransactions];
@@ -36,6 +39,10 @@ function CreateTransactionPage() {
     navigate('/');
   };
 
+  const handleFromAddressChange = (e) => {
+    setFromAddress(e.target.value);
+  };
+
   const handleToAddressChange = (e) => {
     setToAddress(e.target.value);
   };
@@ -45,7 +52,7 @@ function CreateTransactionPage() {
   };
 
   return (
-    <Stack direction="column" justifyContent="center" spacing={10}>
+    <Stack direction="column" justifyContent="center" spacing={5}>
       <Stack direction="column" justifyContent="flex-start" spacing={2}>
         <Typography variant="h4">Create Transaction</Typography>
         <Typography variant="body1">Transfer some money to someone</Typography>
@@ -53,10 +60,10 @@ function CreateTransactionPage() {
       <TextField
         name="from"
         label="From Address"
-        value={currentWallet.address}
+        value={fromAddress}
         variant="outlined"
+        onChange={handleFromAddressChange}
         helperText="This is your wallet address. You cannot change it because you can only spend your own coins."
-        disabled
       />
       <TextField
         name="to"
@@ -74,6 +81,14 @@ function CreateTransactionPage() {
         variant="outlined"
         type="number"
         helperText="You can transfer any amount. Account balance is not checked in this demo. Have at it!"
+      />
+      <TextField
+        name="privateKey"
+        label="Private Key"
+        value={toAddress}
+        variant="outlined"
+        onChange={handleToAddressChange}
+        helperText="The private key of the wallet, used for validating the transaction."
       />
       <Stack direction="row" justifyContent="flex-end" spacing={2}>
         <Button variant="outlined" onClick={handleCancelTransaction}>
