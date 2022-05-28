@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { convertTimestampToDateTime } from '../../../../utils/time';
+import { convertTimestampToDateTime } from '../../utils/time';
 
 function TransactionTable(props) {
   const { data } = props;

@@ -77,3 +77,7 @@ export const DUMMY_TRANSACTION_LIST = [
     isValid: true,
   },
 ];
+
+export const DUMMY_WALLET = {
+  address: '0x12we34o3kd9s0sk30sow234343',
+};

@@ -1,7 +1,7 @@
 import { Typography, Stack } from '@mui/material';
 
 import BlockList from '../../components/BlockList';
-import TransactionTable from '../../components/TransactionTable';
+import TransactionTable from '../../../../components/TransactionTable';
 
 import * as Dummy from '../../../../utils/dummyData';
 import { useEffect, useState } from 'react';
