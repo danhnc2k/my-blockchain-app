@@ -1,36 +1,23 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Stack, TextField, Button, Typography } from '@mui/material';
 
-import TransactionContext from '../../../../contexts/transactionContext';
+import { createTransaction } from '../../../../services/transaction';
 
 function CreateTransactionPage() {
   const navigate = useNavigate();
 
-  const { setPendingTransactions } = useContext(TransactionContext);
-
   const [fromAddress, setFromAddress] = useState('');
   const [toAddress, setToAddress] = useState('');
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState('');
+  const [privateKey, setPrivateKey] = useState('');
 
   const [loading, setLoading] = useState(false);
 
-  const handleCreateTransaction = () => {
+  const handleCreateTransaction = async () => {
     setLoading(true);
-    const newTransaction = {
-      id: 1,
-      from: fromAddress,
-      to: toAddress,
-      amount: amount,
-      timestamp: 1456002322,
-      isValid: true,
-    };
-    setPendingTransactions((prevPendingTransactions) => {
-      const newPendingTransactions = [...prevPendingTransactions];
-      newPendingTransactions.push(newTransaction);
-      setPendingTransactions(newPendingTransactions);
-    });
+    await createTransaction(fromAddress, toAddress, amount, privateKey);
     navigate('/transaction/pending');
     setLoading(false);
   };
@@ -49,6 +36,10 @@ function CreateTransactionPage() {
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
+  };
+
+  const handlePrivateKeyChange = (e) => {
+    setPrivateKey(e.target.value);
   };
 
   return (
@@ -85,9 +76,9 @@ function CreateTransactionPage() {
       <TextField
         name="privateKey"
         label="Private Key"
-        value={toAddress}
+        value={privateKey}
         variant="outlined"
-        onChange={handleToAddressChange}
+        onChange={handlePrivateKeyChange}
         helperText="The private key of the wallet, used for validating the transaction."
       />
       <Stack direction="row" justifyContent="flex-end" spacing={2}>

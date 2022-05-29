@@ -1,26 +1,39 @@
-import { useContext, useState } from 'react';
-import { Typography, Stack, Button } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
+import { Typography, Stack, Button, TextField } from '@mui/material';
 
 import TransactionTable from '../../../../components/TransactionTable';
 
-import TransactionContext from '../../../../contexts/transactionContext';
+import TransactionContext from '../../../../contexts/transaction';
 import { useNavigate } from 'react-router-dom';
+import { getAllTransactions } from '../../../../services/transaction';
+import { mineBlock } from '../../../../services/blockchain';
 
 function PendingTransactionPage() {
   const navigate = useNavigate();
-  const { pendingTransactions } = useContext(TransactionContext);
-  console.log('pending transactions: ', pendingTransactions);
+  const [publicKey, setPublicKey] = useState('');
+  const { pendingTransactions, setPendingTransactions } = useContext(TransactionContext);
 
   const [loading, setLoading] = useState(false);
 
-  const handleMineTransaction = () => {
+  useEffect(() => {
+    const loadPendingTransactions = async () => {
+      const result = await getAllTransactions();
+      setPendingTransactions(result);
+    };
+    loadPendingTransactions();
+  }, []);
+
+  const handleMineTransaction = async () => {
     setLoading(true);
-    // fetch API to mine transactions
+    await mineBlock(publicKey);
+    const result = await getAllTransactions();
+    setPendingTransactions(result);
     setLoading(false);
+    navigate('/');
   };
 
-  const handleCancelMineTransaction = () => {
-    navigate('/');
+  const handlePublicKeyChange = (e) => {
+    setPublicKey(e.target.value);
   };
 
   return (
@@ -29,14 +42,19 @@ function PendingTransactionPage() {
         <Typography variant="h4">Pending Transaction</Typography>
         <Typography variant="body1">
           These transactions are waiting to be included in the next block. Next block is created
-          when you 3 start the mining process.
+          when you start the mining process.
         </Typography>
       </Stack>
       <TransactionTable data={pendingTransactions} />
-      <Stack direction="row" justifyContent="flex-end" spacing={2}>
-        <Button variant="outlined" onClick={handleCancelMineTransaction}>
-          Cancel
-        </Button>
+      <Stack direction="row" justifyContent="space-between" spacing={2}>
+        <TextField
+          name="publicKey"
+          label="Wallet Address (Public Key)"
+          value={publicKey}
+          variant="outlined"
+          onChange={handlePublicKeyChange}
+          sx={{ flexGrow: 1 }}
+        />
         <Button
           color="primary"
           onClick={handleMineTransaction}

@@ -1,5 +1,5 @@
 export const convertTimestampToDateTime = (timestamp) => {
-  const date = new Date(timestamp * 1000);
+  const date = new Date(timestamp);
   return (
     addZeroPrefix(date.getDate()) +
     '/' +

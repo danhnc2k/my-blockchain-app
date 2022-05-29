@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/system';
 import { Container } from '@mui/material';
 
-import { TransactionProvider } from './contexts/transactionContext';
+import { TransactionProvider } from './contexts/transaction';
 
 import Header from './components/Header';
 import Footer from './components/Footer';

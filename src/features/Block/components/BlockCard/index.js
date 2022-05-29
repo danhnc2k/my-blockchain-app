@@ -15,14 +15,26 @@ function BlockCard(props) {
         <Typography variant="body1" marginTop={2} marginBottom={1}>
           Hash
         </Typography>
-        <Typography sx={{ fontWeight: 'bold' }} variant="body1" marginBottom={1}>
+        <Typography
+          variant="body1"
+          sx={{ fontWeight: 'bold', maxWidth: 250 }}
+          textOverflow="ellipsis"
+          overflow="hidden"
+          marginBottom={1}
+        >
           {hash}
         </Typography>
         <Divider />
         <Typography marginTop={2} marginBottom={1}>
           Hash of previous block
         </Typography>
-        <Typography sx={{ fontWeight: 'bold' }} variant="body1" marginBottom={1}>
+        <Typography
+          sx={{ fontWeight: 'bold', maxWidth: 250 }}
+          textOverflow="ellipsis"
+          overflow="hidden"
+          variant="body1"
+          marginBottom={1}
+        >
           {previousHash}
         </Typography>
         <Divider />

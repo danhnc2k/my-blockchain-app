@@ -1,36 +1,32 @@
 import { Stack, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TransactionTable from '../../../../components/TransactionTable';
+import { getTransactionsByAddress } from '../../../../services/transaction';
+import { getBalanceOfWallet } from '../../../../services/wallet';
 
 function WalletDetail() {
+  const navigate = useNavigate();
   const [publicKey, setPublicKey] = useState('');
   const [walletDetail, setWalletDetail] = useState();
   const [loading, setLoading] = useState(false);
 
-  const getWalletDetail = () => {
+  const getWalletDetail = async () => {
+    setLoading(true);
+    const { balance } = await getBalanceOfWallet(publicKey);
+    const transactions = await getTransactionsByAddress(publicKey);
+    console.log('balance, trans', balance, transactions);
     const wallet = {
-      address: '0x132wer3432423',
-      balance: 1234,
-      transactions: [
-        {
-          id: 0,
-          from: '0x123456789werw01232342',
-          to: '0x123456ewwerw78122901ph',
-          amount: 123,
-          timestamp: 1456002322,
-          isValid: true,
-        },
-        {
-          id: 1,
-          from: '0x123456789werw01232342',
-          to: '0x123456ewwerw78122901ph',
-          amount: 123,
-          timestamp: 1456002322,
-          isValid: true,
-        },
-      ],
+      address: publicKey,
+      balance: balance,
+      transactions: transactions,
     };
     setWalletDetail(wallet);
+    setLoading(false);
+  };
+
+  const handleCancelTransaction = () => {
+    navigate('/');
   };
 
   const handlePublicKeyChange = (e) => {
@@ -54,9 +50,14 @@ function WalletDetail() {
           onChange={handlePublicKeyChange}
           helperText="This is your public key of wallet you want to view detail."
         />
-        <Button color="primary" onClick={getWalletDetail} disabled={loading} variant="contained">
-          {loading ? 'Loading' : 'View Wallet Detail'}
-        </Button>
+        <Stack direction="row" justifyContent="flex-end" spacing={2}>
+          <Button variant="outlined" onClick={handleCancelTransaction}>
+            Cancel
+          </Button>
+          <Button color="primary" onClick={getWalletDetail} disabled={loading} variant="contained">
+            {loading ? 'Loading' : 'View Wallet Detail'}
+          </Button>
+        </Stack>
       </Stack>
       {walletDetail && walletDetail.address && (
         <Stack direction="column" justifyContent="flex-start" spacing={3}>

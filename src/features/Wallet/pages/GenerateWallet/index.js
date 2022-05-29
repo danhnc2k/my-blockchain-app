@@ -1,21 +1,23 @@
 import { Stack, Typography, Divider, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { generateWallet } from '../../../../services/wallet';
 
 function GenerateWallet() {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     generateNewWallet();
   }, []);
 
-  const generateNewWallet = () => {
+  const generateNewWallet = async () => {
     setLoading(true);
+    const result = await generateWallet();
     const newWallet = {
-      privateKey: '0x23axa32oewr2323',
-      publicKey: '0xwe3233ower321weqw',
+      privateKey: result.privateKey,
+      publicKey: result.publicKey,
     };
     setWallet(newWallet);
     setLoading(false);

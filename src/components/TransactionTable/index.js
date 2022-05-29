@@ -44,29 +44,35 @@ function TransactionTable(props) {
                 Time
               </Typography>
             </TableCell>
-            <TableCell>
-              <Typography sx={{ fontWeight: 'bold' }} variant="body1">
-                Valid
-              </Typography>
-            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {!data.length ? (
+          {!data?.length ? (
             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell>No transaction</TableCell>
             </TableRow>
           ) : (
             data.map((transaction, index) => (
               <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell>{transaction.id}</TableCell>
-                <TableCell align="left">{transaction.from}</TableCell>
-                <TableCell align="left">{transaction.to}</TableCell>
-                <TableCell align="left">{transaction.amount}</TableCell>
-                <TableCell align="left">
-                  {convertTimestampToDateTime(transaction.timestamp)}
+                <TableCell>
+                  <Typography>{index}</Typography>
                 </TableCell>
-                <TableCell align="left">{transaction.isValid ? 'Yes' : 'No'}</TableCell>
+                <TableCell align="left">
+                  <Typography sx={{ maxWidth: 200 }} textOverflow="ellipsis" overflow="hidden">
+                    {transaction.fromAddress}
+                  </Typography>
+                </TableCell>
+                <TableCell align="left">
+                  <Typography sx={{ maxWidth: 200 }} textOverflow="ellipsis" overflow="hidden">
+                    {transaction.toAddress}
+                  </Typography>
+                </TableCell>
+                <TableCell align="left">
+                  <Typography>{transaction.amount}</Typography>
+                </TableCell>
+                <TableCell align="left">
+                  <Typography>{convertTimestampToDateTime(transaction.timestamp)}</Typography>
+                </TableCell>
               </TableRow>
             ))
           )}

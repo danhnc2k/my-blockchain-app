@@ -17,6 +17,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server1": "set PORT=5001 && (set REACT_APP_API_URL=http://localhost:3001) && react-scripts start",
+    "server2": "set PORT=5002 && (set REACT_APP_API_URL=http://localhost:3002) && react-scripts start",
+    "server3": "set PORT=5003 && (set REACT_APP_API_URL=http://localhost:3003) && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

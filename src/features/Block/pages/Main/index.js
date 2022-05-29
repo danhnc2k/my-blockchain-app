@@ -1,44 +1,52 @@
-import { Typography, Stack } from '@mui/material';
+import { Typography, Stack, Button } from '@mui/material';
 
 import BlockList from '../../components/BlockList';
 import TransactionTable from '../../../../components/TransactionTable';
 
-import * as Dummy from '../../../../utils/dummyData';
 import { useEffect, useState } from 'react';
+import { getChain, updateChain } from '../../../../services/blockchain';
 
 function MainPage() {
   const [blockList, setBlockList] = useState([]);
   const [selectedBlockId, setSelectedBlockId] = useState('');
   const [transactionList, setTransactionList] = useState([]);
 
+  // run once to load blockchain list
   useEffect(() => {
-    // fetch data to get block list
-    setTimeout(() => {
-      setBlockList(Dummy.DUMMY_BLOCK_LIST);
-    }, 300);
+    const loadChain = async () => {
+      const result = await getChain();
+      setBlockList(result);
+    };
+    loadChain();
   }, []);
 
   useEffect(() => {
     const length = blockList.length;
     if (length) {
-      const latestBlockId = blockList[length - 1].id;
+      const latestBlockId = length - 1;
       updateTransactionList(latestBlockId);
     }
   }, [blockList]);
 
   const updateTransactionList = (blockId) => {
-    //fetch data to get transactions in block has id == blockId
-    setTimeout(() => {
-      setSelectedBlockId(blockId);
-      setTransactionList(Dummy.DUMMY_TRANSACTION_LIST);
-      console.log('show transactions: ', blockId);
-    }, 300);
+    setSelectedBlockId(blockId);
+    setTransactionList(blockList[blockId].transactions);
+  };
+
+  const handleReloadTransactions = async () => {
+    const result = await updateChain();
+    setBlockList(result);
   };
 
   return (
     <Stack direction="column" justifyContent="flex-start" spacing={5}>
       <Stack direction="column" justifyContent="flex-start" spacing={2}>
-        <Typography variant="h4">Blocks on chain</Typography>
+        <Stack direction="row" justifyContent="space-between" spacing={2}>
+          <Typography variant="h4">Blocks on chain</Typography>
+          <Button variant="contained" onClick={handleReloadTransactions}>
+            Reload Chain
+          </Button>
+        </Stack>
         <Typography variant="body1">
           Each card represents a block on the chain. Click on a block to see the transactions stored
           inside.

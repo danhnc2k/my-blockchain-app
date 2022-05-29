@@ -15,7 +15,7 @@ function BlockList(props) {
         <BlockCard
           key={index}
           data={block}
-          handleShowTransactions={() => handleShowTransactions(block.id)}
+          handleShowTransactions={() => handleShowTransactions(index)}
         />
       ))}
     </Stack>

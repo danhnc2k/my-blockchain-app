@@ -2,7 +2,7 @@ import { AppBar, Typography, Stack, Button } from '@mui/material';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import TransactionContext from '../../contexts/transactionContext';
+import TransactionContext from '../../contexts/transaction';
 
 function Header() {
   const navigate = useNavigate();
@@ -28,6 +28,10 @@ function Header() {
     navigate('/transaction/pending');
   };
 
+  const handleMineBlock = () => {
+    navigate('/mine-block');
+  };
+
   return (
     <AppBar
       sx={{
@@ -48,6 +52,13 @@ function Header() {
               Pending Transactions {`(${pendingTransactions.length})`}
             </Button>
           )}
+          <Button
+            sx={{ color: 'white', borderColor: 'white' }}
+            variant="outlined"
+            onClick={handleMineBlock}
+          >
+            Mine Block
+          </Button>
           <Button
             sx={{ color: 'white', borderColor: 'white' }}
             variant="outlined"
