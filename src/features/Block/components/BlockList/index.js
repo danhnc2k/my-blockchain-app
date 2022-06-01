@@ -15,6 +15,7 @@ function BlockList(props) {
         <BlockCard
           key={index}
           data={block}
+          id={index}
           handleShowTransactions={() => handleShowTransactions(index)}
         />
       ))}

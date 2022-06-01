@@ -43,15 +43,13 @@ function Header() {
           MY BLOCKCHAIN APP
         </Typography>
         <Stack direction="row" justifyContent="space-between" spacing={2}>
-          {pendingTransactions.length > 0 && (
-            <Button
-              sx={{ color: 'white', borderColor: 'white' }}
-              variant="outlined"
-              onClick={handlePendingTransaction}
-            >
-              Pending Transactions {`(${pendingTransactions.length})`}
-            </Button>
-          )}
+          <Button
+            sx={{ color: 'white', borderColor: 'white' }}
+            variant="outlined"
+            onClick={handlePendingTransaction}
+          >
+            Pending Transactions {`(${pendingTransactions.length})`}
+          </Button>
           <Button
             sx={{ color: 'white', borderColor: 'white' }}
             variant="outlined"

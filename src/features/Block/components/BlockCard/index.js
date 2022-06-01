@@ -3,13 +3,13 @@ import { Card, CardContent, CardActions, Button, Typography, Divider } from '@mu
 import { convertTimestampToDateTime } from '../../../../utils/time';
 
 function BlockCard(props) {
-  const { id, hash, previousHash, nonce, timestamp } = props.data;
+  const { hash, previousHash, nonce, timestamp } = props.data;
 
   return (
     <Card sx={{ minWidth: 275, border: 1, borderColor: 'grey.300' }}>
       <CardContent>
         <Typography variant="h5" color="text.primary" gutterBottom>
-          Block {id}
+          Block {props.id || 'Genesis'}
         </Typography>
         <Divider />
         <Typography variant="body1" marginTop={2} marginBottom={1}>

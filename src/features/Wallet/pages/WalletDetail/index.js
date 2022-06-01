@@ -65,6 +65,7 @@ function WalletDetail() {
           <Typography variant="body1">{walletDetail.address}</Typography>
           <Typography variant="h5">Balance:</Typography>
           <Typography variant="body1">{walletDetail.balance}</Typography>
+          <Typography variant="h5">Transaction History:</Typography>
           <TransactionTable data={walletDetail.transactions} />
         </Stack>
       )}
